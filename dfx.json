@@ -1,21 +1,8 @@
 {
   "canisters": {
-    "challenges_backend": {
-      "main": "src/challenges_backend/main.mo",
+    "day_1": {
+      "main": "src/day_1/main.mo",
       "type": "motoko"
-    },
-    "challenges_frontend": {
-      "dependencies": [
-        "challenges_backend"
-      ],
-      "frontend": {
-        "entrypoint": "src/challenges_frontend/src/index.html"
-      },
-      "source": [
-        "src/challenges_frontend/assets",
-        "dist/challenges_frontend/"
-      ],
-      "type": "assets"
     }
   },
   "defaults": {
