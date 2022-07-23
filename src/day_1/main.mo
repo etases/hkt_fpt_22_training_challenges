@@ -4,7 +4,7 @@ import Debug "mo:base/Debug";
 import Iter "mo:base/Iter";
 import Nat "mo:base/Nat";
 
-actor day_1 {
+actor DayOne {
 
   var counter : Nat = 0;
   
