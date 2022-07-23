@@ -21,7 +21,7 @@ actor day_1 {
   };
 
   public func increment_counter(n: Nat) : async Nat {
-    counter := counter + n;
+    counter += n;
     return counter;
   };
 
@@ -46,7 +46,7 @@ actor day_1 {
     try {
       var sum : Nat = 0; 
       for (number in arr.vals()) {
-        sum := sum + number;
+        sum += number;
       };
       return sum;
     } catch (e) {
@@ -56,8 +56,7 @@ actor day_1 {
 
   public func maximum (arr : [Nat]) : async Nat {
     try {
-      var result : Nat = Array.sort<Nat>(arr, Nat.compare)[arr.size() -1];
-      return result;
+      return Array.sort<Nat>(arr, Nat.compare)[arr.size() -1];
     } catch (e) {
       return 0;
     };
@@ -91,7 +90,7 @@ actor day_1 {
             minIdx := j;
           };
         };
-        var tmp : Nat = mutableArr[minIdx];
+        let tmp : Nat = mutableArr[minIdx];
         mutableArr[minIdx] := mutableArr[i];
         mutableArr[i] := tmp;
       };
