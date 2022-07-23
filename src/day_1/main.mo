@@ -13,7 +13,7 @@ actor DayOne {
   };
 
   public func square(n: Nat) : async Nat {
-    return n * n;
+    return n**2;
   };
 
   public func days_to_second(noOfDate : Nat) : async Nat {
