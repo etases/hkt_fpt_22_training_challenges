@@ -1,7 +1,8 @@
-import React, { StrictMode } from "react";
+import * as React from "react";
+import { StrictMode } from "react";
 import * as ReactDOMClient from "react-dom/client";
 
-import { App } from "~/pages/app";
+import { Router } from "~/routers";
 
 import "~/styles/index.css";
 
@@ -10,6 +11,6 @@ const root = ReactDOMClient.createRoot(rootElement);
 
 root.render(
   <StrictMode>
-    <App />
+    <Router />
   </StrictMode>
 );

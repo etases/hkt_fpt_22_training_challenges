@@ -4,7 +4,7 @@ default: true
 # bullet: false
 # html: false
 # indentation: false
-# line_length: false
+line_length: false
 # spaces: false
 # url: false
 # whitespace: false

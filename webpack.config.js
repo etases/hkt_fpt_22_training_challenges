@@ -65,6 +65,7 @@ module.exports = {
     },
     alias: {
       "~": path.resolve(__dirname, "src", "frontend", "src"),
+      "@canisters": path.resolve(__dirname, "src", "declarations"),
     },
   },
   output: {
