@@ -1,2 +1,2 @@
-export * from "~/pages/app";
-export * from "~/pages/day_1";
+export * from "./app";
+export * from "./day_1";

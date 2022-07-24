@@ -1,0 +1,5 @@
+export const NUMBER = {
+  ZERO: 0,
+  MIN_SAFE_INTEGER: Number.MIN_SAFE_INTEGER,
+  MAX_SAFE_INTEGER: Number.MAX_SAFE_INTEGER,
+};

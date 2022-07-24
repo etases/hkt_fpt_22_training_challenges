@@ -2,7 +2,7 @@ import * as React from "react";
 import { StrictMode } from "react";
 import * as ReactDOMClient from "react-dom/client";
 
-import { Router } from "~/routers";
+import { Router } from "~/router";
 
 import "~/styles/index.css";
 

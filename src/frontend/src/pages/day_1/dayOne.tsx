@@ -1,7 +1,7 @@
 import { day_1 as DayOneCanister } from "@canisters/day_1";
 import { StackDivider, VStack } from "@chakra-ui/react";
 import * as React from "react";
-import { Add } from "~/components";
+import { Add } from "./components";
 
 export function DayOne() {
   return (
