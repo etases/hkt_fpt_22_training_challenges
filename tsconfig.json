@@ -1,13 +1,18 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "src",
+    "esModuleInterop": true,
+    "jsx": "react",
     "lib": ["ESNext", "DOM"],
     "module": "NodeNext",
-    "allowJs": true,
-    "jsx": "react",
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true
+    "paths": {
+      "~/*": ["frontend/src/*"]
+    },
+    "resolveJsonModule": true,
+    "target": "ESNext"
   },
-  "include": ["src/**/*"],
-  "exclude": ["src/declarations"]
+  "exclude": ["src/declarations"],
+  "include": ["src/**/*"]
 }
