@@ -37,7 +37,7 @@ const canisterEnvVariables = initCanisterEnv();
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
-const frontendDirectory = "challenges_frontend";
+const frontendDirectory = "frontend";
 
 const frontend_entry = path.join("src", frontendDirectory, "src", "index.html");
 
@@ -47,7 +47,7 @@ module.exports = {
   entry: {
     // The frontend.entrypoint points to the HTML file for this build, so we need
     // to replace the extension to `.js`.
-    index: path.join(__dirname, frontend_entry).replace(/\.html$/, ".js"),
+    index: path.join(__dirname, frontend_entry).replace(/\.html$/, ".tsx"),
   },
   devtool: isDevelopment ? "source-map" : false,
   optimization: {
@@ -63,6 +63,10 @@ module.exports = {
       stream: require.resolve("stream-browserify/"),
       util: require.resolve("util/"),
     },
+    alias: {
+      "~": path.resolve(__dirname, "src", "frontend", "src"),
+      "@canisters": path.resolve(__dirname, "src", "declarations"),
+    },
   },
   output: {
     filename: "index.js",
@@ -74,12 +78,12 @@ module.exports = {
   // webpack configuration. For example, if you are using React
   // modules and CSS as described in the "Adding a stylesheet"
   // tutorial, uncomment the following lines:
-  // module: {
-  //  rules: [
-  //    { test: /\.(ts|tsx|jsx)$/, loader: "ts-loader" },
-  //    { test: /\.css$/, use: ['style-loader','css-loader'] }
-  //  ]
-  // },
+  module: {
+    rules: [
+      { test: /\.(ts|tsx|jsx)$/, loader: "ts-loader" },
+      { test: /\.css$/, use: ["style-loader", "css-loader"] },
+    ],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, frontend_entry),
