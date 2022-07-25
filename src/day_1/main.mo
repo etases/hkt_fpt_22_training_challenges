@@ -39,7 +39,7 @@ actor DayOne {
   };
 
   public func is_even(n: Nat) : async Bool {
-    return await devide(n, 2);
+    return await devide(2, n);
   };
 
   public func sum_of_array(arr : [Nat]): async Nat {
