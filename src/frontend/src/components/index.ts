@@ -1,1 +1,2 @@
-export * from "~/components/add";
+export * from "./input";
+export * from "./numberInput";

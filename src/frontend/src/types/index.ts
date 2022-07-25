@@ -1,1 +1,1 @@
-export * from "~/types/base";
+export * from "./base";

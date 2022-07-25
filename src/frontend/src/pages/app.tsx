@@ -11,6 +11,12 @@ import * as React from "react";
 import { Link as RouterLink, Outlet } from "react-router-dom";
 import { ChakraProvider } from "~/providers";
 
+const TEXT = {
+  HOME: "Home",
+  DAY_ONE: "Day 1",
+  FOOTER: "Footer",
+};
+
 export function App() {
   return (
     <ChakraProvider>
@@ -26,7 +32,7 @@ export function App() {
         <GridItem area={"header"} background={"gray.100"} padding={2}>
           <LinkBox>
             <LinkOverlay as={RouterLink} to={"/"}>
-              <Text>Home</Text>
+              <Text>{TEXT.HOME}</Text>
             </LinkOverlay>
           </LinkBox>
         </GridItem>
@@ -34,7 +40,7 @@ export function App() {
           <VStack>
             <LinkBox>
               <LinkOverlay as={RouterLink} to={"day-1"}>
-                <Text>Day 1</Text>
+                <Text>{TEXT.DAY_ONE}</Text>
               </LinkOverlay>
             </LinkBox>
           </VStack>
@@ -45,7 +51,7 @@ export function App() {
           </Center>
         </GridItem>
         <GridItem area={"footer"} background={"gray.100"} padding={2}>
-          <Text>footer</Text>
+          <Text>{TEXT.FOOTER}</Text>
         </GridItem>
       </Grid>
     </ChakraProvider>

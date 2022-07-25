@@ -1,2 +1,2 @@
-export * from "~/hooks/useComponentDidMount";
-export * from "~/hooks/useDebounce";
+export * from "./useComponentDidMount";
+export * from "./useDebounce";
