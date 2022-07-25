@@ -39,7 +39,7 @@ actor DayOne {
   };
 
   public func is_even(n: Nat) : async Bool {
-    return n % 2 == 0;
+    return await devide(n, 2);
   };
 
   public func sum_of_array(arr : [Nat]): async Nat {
@@ -64,16 +64,18 @@ actor DayOne {
 
   public func remove_from_array (arr : [Nat], n : Nat) : async [Nat] {
     try {
-      let arrResult = Buffer.Buffer<Nat>(arr.size());
-      for (number in arr.vals()) {
-        if (number != n) {
-          arrResult.add(number);
-        };
-      };
-      return arrResult.toArray();
+      return Array.filter(arr, func(i : Nat) : Bool {
+        return i != n;
+      });
     } catch (e) {
       return arr;
     };
+  };
+
+  private func swap(arr : [var Nat], a : Nat, b : Nat) {
+    let tmp : Nat = arr[a];
+    arr[a] := arr[b];
+    arr[b] := tmp;
   };
 
   public func selection_sort(arr : [Nat]) : async [Nat] {
@@ -90,9 +92,7 @@ actor DayOne {
             minIdx := j;
           };
         };
-        let tmp : Nat = mutableArr[minIdx];
-        mutableArr[minIdx] := mutableArr[i];
-        mutableArr[i] := tmp;
+        swap(mutableArr, minIdx, i);
       };
       return Array.freeze(mutableArr);
     } catch (e) {
