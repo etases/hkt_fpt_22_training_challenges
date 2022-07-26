@@ -82,18 +82,21 @@ actor DayTwo {
     try {
       if (t.size() < 2) return t;
 
-      let cArr : [Char] = Iter.toArray(t.chars());
+      let cArrReversed : [Char] = Array.reverse(Iter.toArray(t.chars()));
+      var foundChars : Text = "";
+      var result : Text = t;
 
-      for (char in t.chars())
+      for (char in cArrReversed.vals())
       {
-        let filteredChars : [Char] = Array.filter<Char>(cArr, func(c) {
-          return c == char;
-        });
+        let cAsText : Text = Text.fromChar(char);
 
-        if (filteredChars.size() > 1) return Text.fromChar(char);
+        if (Text.contains(foundChars, #text cAsText))
+          result := cAsText;
+
+        foundChars #= cAsText;
       };
 
-      return t;
+      return result;
     } catch (e) {
       return t;
     };
