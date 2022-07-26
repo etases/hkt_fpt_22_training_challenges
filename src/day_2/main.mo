@@ -78,18 +78,19 @@ actor DayTwo {
     }
   };
 
-  public func duplicate(t : Text) : async Text {
+  public func duplicated_character(t : Text) : async Text {
     try {
-      let size = t.size();
-      if (size < 2) return t;
+      if (t.size() < 2) return t;
 
       let cArr : [Char] = Iter.toArray(t.chars());
-      let sortedCArr : [Char] = Array.sort(cArr, Char.compare);
 
-      for (i in Iter.range(0, size - 1))
+      for (char in t.chars())
       {
-        if ((i < size - 2) and (sortedCArr[i] == sortedCArr[i+1]))
-          return Text.fromChar(sortedCArr[i]);
+        let filteredChars : [Char] = Array.filter<Char>(cArr, func(c) {
+          return c == char;
+        });
+
+        if (filteredChars.size() > 1) return Text.fromChar(char);
       };
 
       return t;
