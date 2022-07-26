@@ -4,8 +4,12 @@
       "main": "src/day_1/main.mo",
       "type": "motoko"
     },
+    "day_2": {
+      "main": "src/day_2/main.mo",
+      "type": "motoko"
+    },
     "frontend": {
-      "dependencies": ["day_1"],
+      "dependencies": ["day_1", "day_2"],
       "frontend": {
         "entrypoint": "src/frontend/index.html"
       },
