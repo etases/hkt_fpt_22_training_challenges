@@ -9,15 +9,15 @@
 
 ## UTILS
 
-deploy_canisters() {
+deploy_canister() {
 	dfx deploy "$4"
-	echo -e "<=== Canisters deployed on $1 $2 in $3 ===>\n"
+	echo -e "<=== $(date +[%T\|%F]) Canister $4 deployed on $1 $2 in $3 ===>\n"
 }
 
 watch_change() {
 	inotifywait --monitor --exclude declarations --recursive --quiet --event modify,move,delete $1 |
 		while read DIRECTORY EVENT FILE; do
-			deploy_canisters "$EVENT" "$FILE" "$DIRECTORY" "$2"
+			deploy_canister "$EVENT" "$FILE" "$DIRECTORY" "$2"
 		done
 }
 
