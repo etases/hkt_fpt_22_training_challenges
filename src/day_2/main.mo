@@ -8,6 +8,8 @@ import Text "mo:base/Text";
 import Blob "mo:base/Blob";
 
 actor DayTwo {
+
+  // challenge 1
   public func nat_to_nat8(n : Nat) : async Nat8 {
     try {
       return Nat8.fromIntWrap(n);
@@ -16,6 +18,7 @@ actor DayTwo {
     };
   };
 
+  // challenge 2
   public func max_number_with_n_bits(n : Nat) : async Nat {
     try {
       return Nat.pow(2, n) - 1;
@@ -24,7 +27,8 @@ actor DayTwo {
     };
   };
 
-  public func decimal_to_bit(n: Nat) : async Text {
+  // challenge 3
+  public func decimal_to_bits(n: Nat) : async Text {
     try {
       var number = n;
       var bits : Text = "";
@@ -40,6 +44,7 @@ actor DayTwo {
     };
   };
 
+  // challenge 4
   public func capitalize_character(c : Text) : async Text {
     try {
       if (c.size() != 1 ) return "";
@@ -52,6 +57,7 @@ actor DayTwo {
     };
   };
 
+  // challenge 5
   public func capitalize_text(t : Text) : async Text {
     try {
       return Text.map(t, Prim.charToUpper);
@@ -60,6 +66,7 @@ actor DayTwo {
     };
   };
 
+  // challenge 6
   public func is_inside(t : Text, c: Text) : async Bool {
     try {
       if (c.size() != 1) return false;
@@ -70,6 +77,7 @@ actor DayTwo {
     }
   };
 
+  // challenge 7
   public func trim_whitespace(t : Text) : async Text {
     try {
       return Text.trim(t, #char ' ');
@@ -78,6 +86,7 @@ actor DayTwo {
     }
   };
 
+  // challenge 8
   public func duplicated_character(t : Text) : async Text {
     try {
       if (t.size() < 2) return t;
@@ -102,6 +111,7 @@ actor DayTwo {
     };
   };
 
+  // challenge 9
   public func size_in_bytes(t : Text) : async Nat {
     try {
       return Text.encodeUtf8(t).size();
@@ -110,6 +120,7 @@ actor DayTwo {
     };
   };
 
+  // challenge 10
   public func bubble_sort(arr : [Nat]) : async [Nat] {
     let mutableArr : [var Nat] = Array.thaw(arr);
     
@@ -132,7 +143,8 @@ actor DayTwo {
     };
   };
 
-  public func nat_opt_to_nat(m : Nat, n : ?Nat) : async Nat {
+  // challenge 11
+  public func nat_opt_to_nat(m : Nat, n : ? Nat) : async Nat {
     try {
       switch (n) {
         case (null) {
@@ -147,29 +159,30 @@ actor DayTwo {
     };
   };
 
-  public func day_of_the_week(n : Nat) : async ?Text {
+  // challenge 12
+  public func day_of_the_week(n : Nat) : async ? Text {
     try {
       switch (n) {
         case (1) {
-          return ?"Monday";
+          return ? "Monday";
         };
         case (2) {
-          return ?"Tuesday";
+          return ? "Tuesday";
         };
         case (3) {
-          return ?"Wednesday";
+          return ? "Wednesday";
         };
         case (4) {
-          return ?"Thursday";
+          return ? "Thursday";
         };
         case (5) {
-          return ?"Friday";
+          return ? "Friday";
         };
         case (6) {
-          return ?"Saturday";
+          return ? "Saturday";
         };
         case (7) {
-          return ?"Sunday";
+          return ? "Sunday";
         };
         case _ {
           return null;
@@ -180,14 +193,15 @@ actor DayTwo {
     };
   };
 
-  public func populate_array(arr : [?Nat]) : async [Nat] {
+  // challenge 13
+  public func populate_array(arr : [? Nat]) : async [Nat] {
     try {
-      return Array.map<?Nat, Nat>(arr, func(n) {
+      return Array.map<? Nat, Nat>(arr, func(n) {
         switch (n) {
           case (null) {
             return 0;
           };
-          case (?n) {
+          case (? n) {
             return n;
           }
         };
@@ -198,6 +212,7 @@ actor DayTwo {
     };
   };
 
+  // challenge 14
   public func sum_of_array(arr : [Nat]) : async Nat {
     try {
       return Array.foldLeft<Nat, Nat>(arr, 0, func(b, a) {
@@ -208,6 +223,7 @@ actor DayTwo {
     };
   };
 
+  // challenge 15
   public func squared_array(arr : [Nat]) : async [Nat] {
     try {
       return Array.map<Nat, Nat>(arr, func(n) {
@@ -218,6 +234,7 @@ actor DayTwo {
     };
   };
 
+  // challenge 16
   public func increase_by_index(arr : [Nat]) : async [Nat] {
     try {
       return Array.mapEntries<Nat, Nat>(arr, func(n, index) {
@@ -228,6 +245,7 @@ actor DayTwo {
     };
   };
 
+  // challenge 17
   private func contain<A>(arr : [A], a : A, f : (A, A) -> Bool) : Bool {
       return Array.foldLeft<A, Bool>(arr, false, func(result, current) {
         if (f(current, a)) return true;
