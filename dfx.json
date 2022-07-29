@@ -16,8 +16,12 @@
       "main": "src/day_3_extra/main.mo",
       "type": "motoko"
     },
+    "plug": {
+      "main": "src/plug/main.mo",
+      "type": "motoko"
+    },
     "frontend": {
-      "dependencies": ["day_1", "day_2", "day_3", "day_3_extra"],
+      "dependencies": ["day_1", "day_2", "day_3", "day_3_extra", "plug"],
       "frontend": {
         "entrypoint": "src/frontend/index.html"
       },
