@@ -163,14 +163,43 @@ actor DayThree {
     };
   };
 
+  private let principalCycleMap : HashMap.HashMap<Principal, Nat> = HashMap.HashMap<Principal, Nat>(0, Principal.equal, Principal.hash);
+  private let principalCycleCapacity : Nat = 1_000_000;
+
   // challenge 16
   public shared(context) func deposit_cycles() : async Nat {
-    let received = Cycles.available();
-    let deposited = Cycles.accept(received);
-    return deposited;
+    var balance = switch (principalCycleMap.get(context.caller)) {
+      case (null) { 0 };
+      case (?v) { v };
+    };
+    let amount = Cycles.available();
+    let limit : Nat = principalCycleCapacity - balance;
+    let acceptable = if (amount <= limit) amount else limit;
+    let accepted = Cycles.accept(acceptable);
+    assert (accepted == acceptable);
+    principalCycleMap.put(context.caller, balance + accepted);
+    return accepted;
   };
 
   // challenge 17
+  public shared(context) func withdraw_cycles(amount : Nat) : async () {
+    switch (principalCycleMap.get(context.caller)) {
+      case (null) {
+        return;
+      };
+      case (?balance) {
+        if (amount > balance) {
+          return;
+        };
+        Cycles.add(amount);
+        let available = Cycles.available();
+        let accepted = Cycles.accept(available);
+        assert (accepted == available);
+        let refund = Cycles.refunded();
+        principalCycleMap.put(context.caller, balance - amount + refund);
+      };
+    };
+  };
 
   // challenge 18.1
   public func increase_counter() : async () {
