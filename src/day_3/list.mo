@@ -1,23 +1,21 @@
-import Array "mo:base/Array";
-import List "mo:base/List";
-import Debug "mo:base/Debug";
-
+// Custom List
 module {
+  public type List<T> = ?(T, List<T>);
 
   // challenge 7
-  public func is_null<T>(l : List.List<T>) : Bool {
+  public func is_null<T>(l : List<T>) : Bool {
     switch (l) {
       case (null) {
         return true;
       };
       case _ {
-        return true;
+        return false;
       }
     };
   };
 
   // challenge 8
-  public func last<T>(l : List.List<T>) : ? T {
+  public func last<T>(l : List<T>) : ? T {
     switch (l) {
       case (null) {
         return null;
@@ -32,8 +30,8 @@ module {
   };
 
   // challenge 9
-  public func size<T>(l : List.List<T>) : Nat {
-    func recursive(l : List.List<T>, n : Nat) : Nat {
+  public func size<T>(l : List<T>) : Nat {
+    func recursive(l : List<T>, n : Nat) : Nat {
       switch (l) {
         case (null) {
           return n;
@@ -48,7 +46,7 @@ module {
   };
 
   // challenge 10
-  public func get<T>(l : List.List<T>, n : Nat) : ? T {
+  public func get<T>(l : List<T>, n : Nat) : ? T {
     switch (n, l) {
       case (_, null) {
         return null;
