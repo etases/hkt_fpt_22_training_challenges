@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Badge,
   Button,
@@ -23,14 +23,15 @@ const TEXT = {
   HOME: "Home",
   DAY_ONE: "Day 1",
   FOOTER: "Footer",
+  PLUG: "Plug",
   CONNECTION: {
     STATUS: {
       ERROR: "connect error",
     },
     WORD: {
       ID: "id",
-      CONNECT: "connect",
-      CONNECTED: "connected",
+      CONNECT: "Connect to Plug",
+      CONNECTED: "Plug connected",
     },
   },
 };
@@ -62,10 +63,6 @@ const wd = () => window as any;
 
 const plug = () => wd()?.ic?.plug;
 
-// const CANISTER = {
-//   WHITE_LIST: ["rrkah-fqaaa-aaaaa-aaaaq-cai", "rno2w-sqaaa-aaaaa-aaacq-cai"],
-// };
-
 function onConnectCallback() {
   console.log("connect callback");
 }
@@ -83,12 +80,6 @@ async function verifyConnectionAndAgent(setConnection: any) {
       ...prev,
       connected,
     }));
-
-    // const agentExisted = await plug()?.agent;
-    // if (connected && !agentExisted) {
-    //   const agent = await plug()?.agent?.createAgent({});
-    //   console.log("agent: ", agent);
-    // }
 
     const sessionData = await plug()?.sessionManager?.sessionData;
 
@@ -114,7 +105,12 @@ export function Layout(props) {
       gap={2}
       height={"100%"}
     >
-      <GridItem area={"header"} background={"gray.100"} padding={2}>
+      <GridItem
+        area={"header"}
+        backgroundColor={"gray.100"}
+        padding={2}
+        borderBottomRadius={"md"}
+      >
         <Flex overflow={"auto"}>
           <LinkBox>
             <LinkOverlay as={RouterLink} to={"/"}>
@@ -139,7 +135,7 @@ export function Layout(props) {
                       key={key}
                       overflow={"hidden"}
                       textOverflow={"ellipsis"}
-                      maxWidth={100}
+                      maxWidth={200}
                       colorScheme={COLOR.BADGE[key.length % COLOR.BADGE.length]}
                     >
                       {key[0]}
@@ -166,22 +162,42 @@ export function Layout(props) {
           </VisuallyHidden>
         </Flex>
       </GridItem>
-      <GridItem area={"nav"} background={"gray.100"} padding={2}>
+      <GridItem
+        area={"nav"}
+        backgroundColor={"gray.100"}
+        padding={2}
+        borderRightRadius={"md"}
+      >
         <VStack>
           <LinkBox>
             <LinkOverlay as={RouterLink} to={"day-1"}>
               <Text>{TEXT.DAY_ONE}</Text>
             </LinkOverlay>
           </LinkBox>
+          <LinkBox>
+            <LinkOverlay as={RouterLink} to={"plug-wallet"}>
+              <Text>{TEXT.PLUG}</Text>
+            </LinkOverlay>
+          </LinkBox>
         </VStack>
       </GridItem>
-      <GridItem area={"main"} background={"gray.200"} padding={2}>
+      <GridItem
+        area={"main"}
+        backgroundColor={"gray.200"}
+        padding={2}
+        borderLeftRadius={"md"}
+      >
         <Center width={"100%"} height={"100%"}>
           {/* MAIN VIEW */}
           <Outlet />
         </Center>
       </GridItem>
-      <GridItem area={"footer"} background={"gray.100"} padding={2}>
+      <GridItem
+        area={"footer"}
+        backgroundColor={"gray.100"}
+        padding={2}
+        borderTopRadius={"md"}
+      >
         <Text>{TEXT.FOOTER}</Text>
       </GridItem>
     </Grid>

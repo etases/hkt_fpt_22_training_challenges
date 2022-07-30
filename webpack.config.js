@@ -64,7 +64,7 @@ module.exports = {
       util: require.resolve("util/"),
     },
     alias: {
-      "~": path.resolve(__dirname, "src", "frontend", "src"),
+      "~": path.resolve(__dirname, "src", frontendDirectory, "src"),
       "@canisters": path.resolve(__dirname, "src", "declarations"),
     },
   },
@@ -80,14 +80,14 @@ module.exports = {
   // tutorial, uncomment the following lines:
   module: {
     rules: [
-      { test: /\.(ts|tsx|jsx)$/, loader: "ts-loader" },
+      { test: /\.(ts|tsx)$/, loader: "ts-loader" },
       { test: /\.css$/, use: ["style-loader", "css-loader"] },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, frontend_entry),
-      cache: false,
+      cache: true,
     }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: "development",
@@ -113,5 +113,6 @@ module.exports = {
     hot: true,
     watchFiles: [path.resolve(__dirname, "src", frontendDirectory)],
     liveReload: true,
+    historyApiFallback: true,
   },
 };
