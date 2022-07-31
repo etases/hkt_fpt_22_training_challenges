@@ -1,0 +1,38 @@
+type TokenMetadata = 
+ record {
+   description: text;
+   uri: text;
+ };
+type TokenId = nat;
+type Customer = 
+ record {
+   address: text;
+   birthday: text;
+   firstName: text;
+   isFemale: bool;
+   lastName: text;
+   phone: text;
+ };
+service : {
+  addCustomer: (Customer) -> (nat);
+  allTokens: () -> (vec TokenId) query;
+  approve: (principal, TokenId) -> ();
+  balanceOf: (principal) -> (opt nat) query;
+  deleteCustomer: (nat) -> (bool);
+  doIOwn: (nat) -> (bool) query;
+  getApproved: (nat) -> (principal);
+  getCustomer: (nat) -> (opt Customer);
+  getCustomers: () -> (vec record {
+                             nat;
+                             Customer;
+                           });
+  isApprovedForAll: (principal, principal) -> (bool);
+  mint: (TokenMetadata) -> (nat);
+  name: () -> (text) query;
+  ownerOf: (TokenId) -> (opt principal) query;
+  setApprovalForAll: (principal, bool) -> () oneway;
+  symbol: () -> (text) query;
+  tokenURI: (TokenId) -> (opt TokenMetadata) query;
+  transferFrom: (principal, principal, nat) -> () oneway;
+  updateCustomer: (nat, Customer) -> ();
+}

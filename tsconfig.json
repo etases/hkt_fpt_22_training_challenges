@@ -19,8 +19,6 @@
       ]
     },
     "importHelpers": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmitOnError": true,
     "allowUmdGlobalAccess": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,

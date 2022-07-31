@@ -1,0 +1,24 @@
+// Version: 1.0.0
+type Customer =
+  {
+    address : Text;
+    birthday : Text;
+    firstName : Text;
+    isFemale : Bool;
+    lastName : Text;
+    phone : Text
+  };
+type TokenId = Nat;
+type TokenMetadata = {description : Text; uri : Text};
+actor {
+  stable var balancesEntries : [(Principal, Nat)];
+  stable var customerEntries : [(TokenId, Customer)];
+  stable var name_ : Text;
+  stable var nextCustomerId : Nat;
+  stable var operatorApprovalsEntries : [(Principal, [Principal])];
+  stable var ownersEntries : [(TokenId, Principal)];
+  stable var symbol_ : Text;
+  stable var tokenApprovalsEntries : [(TokenId, Principal)];
+  stable var tokenPk : Nat;
+  stable var tokenURIEntries : [(TokenId, TokenMetadata)]
+};

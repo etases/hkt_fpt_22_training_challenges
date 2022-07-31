@@ -7,8 +7,22 @@ import Principal "mo:base/Principal";
 import Array "mo:base/Array";
 import Iter "mo:base/Iter";
 import P "mo:base/Prelude";
+import Trie "mo:base/Trie";
 
 actor Dip721Nft {
+  public type Customer = {
+    firstName : Text;
+    lastName : Text;
+    isFemale : Bool;
+    birthday : Text;
+    phone : Text;
+    address : Text;
+  };
+  public type TokenMetadata = {
+    uri : Text;
+    description : Text;
+  };
+
   public shared query (doIOwn__msg) func doIOwn(tokenId : Nat) : async Bool {
     let caller = doIOwn__msg.caller; // First input
     _ownerOf(tokenId) == ?caller;
@@ -24,24 +38,31 @@ actor Dip721Nft {
   private type TokenId = Nat;
 
   private stable var tokenPk : Nat = 0;
+  private stable var nextCustomerId : TokenId = 0;
 
-  private stable var tokenURIEntries : [(TokenId, Text)] = [];
+  private stable var customerEntries : [(TokenId, Customer)] = [];
+  private stable var tokenURIEntries : [(TokenId, TokenMetadata)] = [];
   private stable var ownersEntries : [(TokenId, Principal)] = [];
   private stable var balancesEntries : [(Principal, Nat)] = [];
   private stable var tokenApprovalsEntries : [(TokenId, Principal)] = [];
   private stable var operatorApprovalsEntries : [(Principal, [Principal])] = [];
 
-  private let tokenURIs : HashMap.HashMap<TokenId, Text> = HashMap.fromIter<TokenId, Text>(tokenURIEntries.vals(), 10, Nat.equal, Hash.hash);
+  private let customerMap : HashMap.HashMap<TokenId, Customer> = HashMap.fromIter<TokenId, Customer>(customerEntries.vals(), 10, Nat.equal, Hash.hash);
+  private let tokenURIs : HashMap.HashMap<TokenId, TokenMetadata> = HashMap.fromIter<TokenId, TokenMetadata>(tokenURIEntries.vals(), 10, Nat.equal, Hash.hash);
   private let owners : HashMap.HashMap<TokenId, Principal> = HashMap.fromIter<TokenId, Principal>(ownersEntries.vals(), 10, Nat.equal, Hash.hash);
   private let balances : HashMap.HashMap<Principal, Nat> = HashMap.fromIter<Principal, Nat>(balancesEntries.vals(), 10, Principal.equal, Principal.hash);
   private let tokenApprovals : HashMap.HashMap<TokenId, Principal> = HashMap.fromIter<TokenId, Principal>(tokenApprovalsEntries.vals(), 10, Nat.equal, Hash.hash);
   private let operatorApprovals : HashMap.HashMap<Principal, [Principal]> = HashMap.fromIter<Principal, [Principal]>(operatorApprovalsEntries.vals(), 10, Principal.equal, Principal.hash);
-
+    
   private func _unwrap<T>(x : ?T) : T {
     switch x {
       case null { P.unreachable() };
       case (?x_) { x_ };
     }
+  };
+
+  public shared query func allTokens() : async [TokenId] {
+    return Iter.toArray(tokenURIs.keys());
   };
 
   public shared query func balanceOf(p : Principal) : async ?Nat {
@@ -52,7 +73,7 @@ actor Dip721Nft {
     return _ownerOf(tokenId);
   };
 
-  public shared query func tokenURI(tokenId : TokenId) : async ?Text {
+  public shared query func tokenURI(tokenId : TokenId) : async ?TokenMetadata {
     return _tokenURI(tokenId);
   };
 
@@ -124,7 +145,7 @@ actor Dip721Nft {
     _transfer(from, to, tokenId);
   };
 
-  public shared(msg) func mint(uri : Text) : async Nat {
+  public shared(msg) func mint(uri : TokenMetadata) : async Nat {
     tokenPk += 1;
     _mint(msg.caller, tokenPk, uri);
     return tokenPk;
@@ -137,7 +158,7 @@ actor Dip721Nft {
     return owners.get(tokenId);
   };
 
-  private func _tokenURI(tokenId : TokenId) : ?Text {
+  private func _tokenURI(tokenId : TokenId) : ?TokenMetadata {
     return tokenURIs.get(tokenId);
   };
 
@@ -227,7 +248,7 @@ actor Dip721Nft {
     }
   };
 
-  private func _mint(to : Principal, tokenId : Nat, uri : Text) : () {
+  private func _mint(to : Principal, tokenId : Nat, uri : TokenMetadata) : () {
     assert not _exists(tokenId);
 
     _incrementBalance(to);
@@ -250,6 +271,7 @@ actor Dip721Nft {
     balancesEntries := Iter.toArray(balances.entries());
     tokenApprovalsEntries := Iter.toArray(tokenApprovals.entries());
     operatorApprovalsEntries := Iter.toArray(operatorApprovals.entries());
+    customerEntries := Iter.toArray(customerMap.entries()); 
   };
 
   system func postupgrade() {
@@ -258,5 +280,38 @@ actor Dip721Nft {
     balancesEntries := [];
     tokenApprovalsEntries := [];
     operatorApprovalsEntries := [];
+    customerEntries := [];
   };
+
+  // Customer
+
+  public func addCustomer(customer : Customer) : async Nat {
+    let id = nextCustomerId;
+    customerMap.put(id, customer);
+    nextCustomerId := nextCustomerId + 1;
+    return id;
+  };
+
+  public func getCustomer(id : Nat) : async ?Customer {
+    return customerMap.get(id);
+  };
+  
+  public func updateCustomer(id : Nat, customer : Customer) : async () {
+    return customerMap.put(id, customer);
+  };
+
+  public func deleteCustomer(id : Nat) : async Bool {
+    switch (customerMap.remove(id)) {
+      case null { false };
+      case _ { true };
+    };
+  };
+
+  public func getCustomers() : async [(Nat, Customer)] {
+    Iter.toArray(customerMap.entries());
+  };
+
+
+
+
 }

@@ -88,6 +88,7 @@ async function verifyConnectionAndAgent(setConnection: any) {
       ...prev,
       sessionData,
     }));
+    localStorage.setItem("sessionData", JSON.stringify(sessionData));
   } catch (e) {
     console.log(`${TEXT.CONNECTION.STATUS.ERROR}: ${e.message}`);
   }
@@ -170,9 +171,19 @@ export function Layout(props) {
         borderRightRadius={"md"}
       >
         <VStack>
-          <LinkBox>
+          {/* <LinkBox>
             <LinkOverlay as={RouterLink} to={"plug-wallet"}>
               <Text>{TEXT.PLUG}</Text>
+            </LinkOverlay>
+          </LinkBox> */}
+          <LinkBox>
+            <LinkOverlay as={RouterLink} to={"/customer"}>
+              <Text>Customer Lists</Text>
+            </LinkOverlay>
+          </LinkBox>
+          <LinkBox>
+            <LinkOverlay as={RouterLink} to={"/mint-and-transfer"}>
+              <Text>Mint and Transfer</Text>
             </LinkOverlay>
           </LinkBox>
         </VStack>
