@@ -1,16 +1,16 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
-# required command
+# required commands
 GUM="gum"
 INOTIFY_TOOLS="inotifywait"
 DFX="dfx"
 FD="fd"
-
+JQ="jq"
 # required scripts
 DEPLOY_ON_CHANGE_SCRIPT="deploy_on_change.sh"
 
 # required list
-REQUIRED_COMMANDS=("${DFX}" "${GUM}" "${INOTIFY_TOOLS}" "${FD}")
+REQUIRED_COMMANDS=("${DFX}" "${GUM}" "${INOTIFY_TOOLS}" "${FD}" "${JQ}")
 REQUIRED_SCRIPTS=("${DEPLOY_ON_CHANGE_SCRIPT}")
 
 # check required commands
@@ -48,51 +48,52 @@ SELECTED_ACTION=$(
 
 case ${SELECTED_ACTION} in
 "${SDK_ACTION_START}")
-    # start local server
+	# start local server
 	# printf "dfx start"
 	dfx start
-    exit
+	exit
 	;;
 "${SDK_ACTION_START_CLEAN}")
-    # clean start local server
+	# clean start local server
 	# printf "dfx start --clean"
 	dfx start --clean
-    exit
+	exit
 	;;
 "${SDK_ACTION_DEPLOY}")
-    # canister to deploy
-	CANISTER=$(gum input --placeholder "Canister name?")
-    # watch for code change
-    printf "Watch for code change?\n"
+	# canister to deploy
+	CANISTERS=$(jq ".canisters | keys | @sh" dfx.json -r | tr -d \"\' | tr " " "\n")
+	CANISTER=$(printf "%s" "${CANISTERS::${#CANISTERS}}" | gum filter --placeholder "Select a canister")
+	# watch for code change
+	printf "Watch for code change?\n"
 	WATCH_CHANGE=$(gum choose "yes" "no")
 	if [[ ${WATCH_CHANGE} == "yes" ]]; then
-        # select watch folder
-        printf "Select folder to watch:\n"
+		# select watch folder
+		printf "Select folder to watch:\n"
 		WATCH_FOLDER=$(fd --exact-depth 1 . src | gum choose)
 		# deploy and re-deploy on canister code change
-        source "${DEPLOY_ON_CHANGE_SCRIPT}" "${WATCH_FOLDER}" "${CANISTER}"
+		source "${DEPLOY_ON_CHANGE_SCRIPT}" "${WATCH_FOLDER}" "${CANISTER}"
 		# printf "%s %s %s" "${DEPLOY_ON_CHANGE_SCRIPT}" "${WATCH_FOLDER}" "${CANISTER}"
-        exit
+		exit
 	fi
-    # deploy canister
-    dfx deploy "${CANISTER}"
+	# deploy canister
+	dfx deploy "${CANISTER}"
 	# printf "dfx deploy %s" "${CANISTER}"
-    exit
+	exit
 	;;
 "${SDK_ACTION_DEPLOY_ALL}")
-    # deploy all canister
+	# deploy all canister
 	# printf "dfx deploy"
 	dfx deploy
-    exit
+	exit
 	;;
 "${SDK_ACTION_STOP}")
-    # stop local server
+	# stop local server
 	# printf "dfx stop"
 	dfx stop
-    exit
+	exit
 	;;
 *)
-    # show available action
+	# show available action
 	IFS=$'\n'
 	printf "available options:\n%s" "${SDK_ACTION[*]}"
 	exit

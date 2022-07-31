@@ -1,27 +1,11 @@
 {
   "canisters": {
-    "day_1": {
-      "main": "src/day_1/main.mo",
-      "type": "motoko"
-    },
-    "day_2": {
-      "main": "src/day_2/main.mo",
-      "type": "motoko"
-    },
-    "day_3": {
-      "main": "src/day_3/main.mo",
-      "type": "motoko"
-    },
-    "day_3_extra": {
-      "main": "src/day_3_extra/main.mo",
-      "type": "motoko"
-    },
     "plug": {
       "main": "src/plug/main.mo",
       "type": "motoko"
     },
     "frontend": {
-      "dependencies": ["day_1", "day_2", "day_3", "day_3_extra", "plug"],
+      "dependencies": ["plug"],
       "frontend": {
         "entrypoint": "src/frontend/index.html"
       },

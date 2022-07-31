@@ -21,7 +21,6 @@ import { plug as PlugCanister } from "@canisters/plug";
 
 const TEXT = {
   HOME: "Home",
-  DAY_ONE: "Day 1",
   FOOTER: "Footer",
   PLUG: "Plug",
   CONNECTION: {
@@ -72,7 +71,9 @@ async function verifyConnectionAndAgent(setConnection: any) {
     let connected = await plug()?.isConnected();
 
     if (!connected) {
-      const key = await plug()?.requestConnect();
+      const key = await plug()?.requestConnect({
+        host: "http://localhost:8000",
+      });
       connected = !!key;
     }
 
@@ -170,11 +171,6 @@ export function Layout(props) {
       >
         <VStack>
           <LinkBox>
-            <LinkOverlay as={RouterLink} to={"day-1"}>
-              <Text>{TEXT.DAY_ONE}</Text>
-            </LinkOverlay>
-          </LinkBox>
-          <LinkBox>
             <LinkOverlay as={RouterLink} to={"plug-wallet"}>
               <Text>{TEXT.PLUG}</Text>
             </LinkOverlay>
@@ -187,7 +183,7 @@ export function Layout(props) {
         padding={2}
         borderLeftRadius={"md"}
       >
-        <Center width={"100%"} height={"100%"}>
+        <Center width={"100%"} height={"100%"} overflow={"hidden"}>
           {/* MAIN VIEW */}
           <Outlet />
         </Center>
